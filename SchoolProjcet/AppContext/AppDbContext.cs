@@ -5,12 +5,12 @@ namespace School.AppContext
 {
     public class AppDbContext : DbContext
     {
-
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected AppDbContext()
         {
-            optionsBuilder.UseSqlServer("");
+        }
+
+        public AppDbContext(DbContextOptions options) : base(options)
+        {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

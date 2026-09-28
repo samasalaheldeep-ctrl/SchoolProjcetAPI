@@ -14,10 +14,10 @@ namespace SchoolProjcet.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        public EnrollmentsController()
+        public EnrollmentsController(AppDbContext context, IMapper mapper)
         {
-            _context = new AppDbContext();
-            _mapper = new MapperConfiguration(cfg => cfg.AddProfile<EnrollmentProfile>()).CreateMapper();
+            _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]

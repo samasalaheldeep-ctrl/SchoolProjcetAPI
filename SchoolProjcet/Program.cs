@@ -1,4 +1,9 @@
 
+using Microsoft.EntityFrameworkCore;
+using School.AppContext;
+using SchoolProjcet.Repo.Impelementation;
+using SchoolProjcet.Repo.IRepo;
+
 namespace SchoolProjcet
 {
     public class Program
@@ -18,7 +23,17 @@ namespace SchoolProjcet
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+       
+
+            builder.Services.AddAutoMapper(typeof(Program));
+
+
+            builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer(
+                builder.Configuration.GetConnectionString("ConnectionStrings")));
+
             var app = builder.Build();
+
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

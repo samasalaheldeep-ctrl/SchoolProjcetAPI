@@ -15,12 +15,12 @@ namespace SchoolProjcet.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        public TeachersController()
+        public TeachersController(AppDbContext context, IMapper mapper)
         {
-            _context = new AppDbContext();
-            _mapper = new MapperConfiguration(cfg => cfg.AddProfile<TeacherProfile>()).CreateMapper();
-
+            _context = context;
+            _mapper = mapper;
         }
+
 
         [HttpGet]
         public IActionResult GetAll()
@@ -43,18 +43,44 @@ namespace SchoolProjcet.Controllers
             return Ok(teachermap);
         }
 
-        [HttpPost("create")]
-        public IActionResult Create(CreateTeacherDTO teacher)
-        {
-            if (teacher == null)
-            {
-                return BadRequest("Teacher data cannot be null.");
-            }
-            var d = _mapper.Map<Teacher>(teacher);
-            _context.Teachers.Add(d);
-            _context.SaveChanges();
-            return Ok(teacher);
-        }
+        //[HttpPost("create")]
+        //public IActionResult Create(CreateTeacherDTO teacher)
+        //{
+        //    if (teacher == null)
+        //    {
+        //        return BadRequest("Teacher data cannot be null.");
+        //    }
+        //    var d = _mapper.Map<Teacher>(teacher);
+        //    _context.Teachers.Add(d);
+        //    _context.SaveChanges();
+        //    return Ok(teacher);
+        //}
+
+        //[HttpPut("update/{id}")]
+        //public IActionResult Update(int id, UpdateTeacherDTO teacher)
+        //{
+        //    if (teacher == null)
+        //    {
+        //        return BadRequest("Teacher data cannot be null.");
+        //    }
+
+        //    var existingTeacher = _context.Teachers.Find(id);
+        //    if (existingTeacher == null)
+        //    {
+        //        return NotFound($"Teacher with id {id} not found.");
+        //    }
+
+        //    existingTeacher.FirstName = teacher.FirstName;
+        //    existingTeacher.LastName = teacher.LastName;
+        //    existingTeacher.Email = teacher.Email;
+        //    existingTeacher.PhoneNumber = teacher.PhoneNumber;
+        //    existingTeacher.Salary = teacher.Salary;
+        //    existingTeacher.DepartmentId = teacher.DepartmentId;
+        //    var teachermap = _mapper.Map<TeacherDTO>(existingTeacher);
+
+        //    _context.SaveChanges();
+        //    return Ok(teachermap);
+        //}
 
         [HttpPut("update/{id}")]
         public IActionResult Update(int id, UpdateTeacherDTO teacher)
@@ -70,13 +96,8 @@ namespace SchoolProjcet.Controllers
                 return NotFound($"Teacher with id {id} not found.");
             }
 
-            existingTeacher.FirstName = teacher.FirstName;
-            existingTeacher.LastName = teacher.LastName;
-            existingTeacher.Email = teacher.Email;
-            existingTeacher.PhoneNumber = teacher.PhoneNumber;
-            existingTeacher.Salary = teacher.Salary;
-            existingTeacher.DepartmentId = teacher.DepartmentId;
-            var teachermap = _mapper.Map<TeacherDTO>(existingTeacher);
+    
+            var teachermap = _mapper.Map(teacher,existingTeacher);
 
             _context.SaveChanges();
             return Ok(teachermap);
@@ -91,17 +112,7 @@ namespace SchoolProjcet.Controllers
                 return NotFound($"Teacher with id {id} not found.");
             }
 
-            var dto = new TeacherDTO
-            {
-                Id = existingTeacher.Id,
-                FirstName = existingTeacher.FirstName,
-                LastName = existingTeacher.LastName,
-                Email = existingTeacher.Email,
-                PhoneNumber = existingTeacher.PhoneNumber,
-                Salary = existingTeacher.Salary,
-                DepartmentId = existingTeacher.DepartmentId,
-                DepartmentName = existingTeacher.Department?.Name
-            };
+            var dto = _mapper.Map<TeacherDTO>(existingTeacher);
 
             _context.Teachers.Remove(existingTeacher);
             _context.SaveChanges();

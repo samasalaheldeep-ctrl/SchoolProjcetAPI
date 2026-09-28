@@ -15,10 +15,10 @@ namespace SchoolProjcet.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
-        public SubjectsController()
+        public SubjectsController( AppDbContext context,IMapper mapper)
         {
-            _context = new AppDbContext();
-            _mapper = new MapperConfiguration(cfg => cfg.AddProfile<SubjectProfile>()).CreateMapper();
+            _context =  context;
+            _mapper = mapper;
         }
 
         [HttpGet]
