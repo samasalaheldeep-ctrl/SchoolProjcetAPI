@@ -11,6 +11,7 @@ namespace SchoolProjcet.Mapping
             CreateMap<Department, DepartmentDTO>().ReverseMap();
             CreateMap<Department, DepartmentCreateDTO>().ReverseMap();
             CreateMap<Department, DepartmentUpdateDTO>().ReverseMap();
+            //gfdssdftgyijkl;lkjhgfdxzsxcvbnm,;yiturytefdvcd
         }
     }
 }
